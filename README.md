@@ -37,7 +37,7 @@ Este projeto Java permite ao usuário inserir um URL e uma frase, em seguida, fa
 2. Compilar o projeto usando Maven:
 
     ```bash
-    mvn clean install
+    mvn clean package
     ```
 
 3. Usar o programa:
