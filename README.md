@@ -8,6 +8,8 @@ Este projeto Java permite ao usuário inserir um URL e uma frase, em seguida, fa
 
 [Assista ao vídeo do projeto](https://www.youtube.com/watch?v=j4kesxWtHbQ)
 
+[Assista ao vídeo do projeto](https://github.com/user-attachments/assets/b1620fd1-9955-4aab-a904-ace5468511a7)
+
 ## Funcionalidades
 
 - Validação de URL fornecida pelo usuário.
