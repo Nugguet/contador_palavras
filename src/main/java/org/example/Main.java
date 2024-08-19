@@ -9,37 +9,30 @@ import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-import javax.swing.JOptionPane;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Main {
     public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
         boolean continuar = true;
 
-        // função para receber link e frase do usuario
         while (continuar) {
-
-            String url = JOptionPane.showInputDialog(null, "Insira um URL válido:", "Entrada de URL", JOptionPane.QUESTION_MESSAGE);
-
-            if (url == null) {
-                break;
-            }
+            System.out.println("Insira um URL válido:");
+            String url = scanner.nextLine();
 
             if (!isUrlValida(url)) {
-                JOptionPane.showMessageDialog(null, "URL inválido. Por favor, insira um URL válido.", "Erro", JOptionPane.ERROR_MESSAGE);
+                System.out.println("URL inválido. Por favor, insira um URL válido.");
                 continue;
             }
 
-            String frase = JOptionPane.showInputDialog(null, "Insira uma frase para procurar:", "Entrada de Frase", JOptionPane.QUESTION_MESSAGE);
-
-            if (frase == null) {
-                break;
-            }
+            System.out.println("Insira uma frase para procurar:");
+            String frase = scanner.nextLine();
 
             try {
                 // Faz a requisição HTTP e processa o conteúdo
@@ -47,30 +40,22 @@ public class Main {
 
                 // Processa e obtem o resultado das ocorrências
                 String resultado = processaOcorrencias(conteudoUrl, frase);
-
-                JOptionPane.showMessageDialog(null, resultado, "Resultado", JOptionPane.INFORMATION_MESSAGE);
+                System.out.println(resultado);
 
             } catch (IOException e) {
-                JOptionPane.showMessageDialog(null, "Erro ao acessar o URL. Por favor, verifique a URL e tente novamente.", "Erro", JOptionPane.ERROR_MESSAGE);
+                System.out.println("Erro ao acessar o URL. Por favor, verifique a URL e tente novamente.");
             }
 
             // Pergunta ao usuário se deseja continuar
-            int escolha = JOptionPane.showOptionDialog(
-                    null,
-                    "Deseja realizar outro teste?",
-                    "Continuar?",
-                    JOptionPane.YES_NO_OPTION,
-                    JOptionPane.QUESTION_MESSAGE,
-                    null,
-                    new String[]{"Sim", "Não"},
-                    "Sim"
-            );
+            System.out.println("Deseja realizar outro teste? (s/n)");
+            String resposta = scanner.nextLine().trim().toLowerCase();
 
-            // Finaliza o loop
-            if (escolha == JOptionPane.NO_OPTION) {
+            if (!resposta.equals("s")) {
                 continuar = false;
             }
         }
+
+        scanner.close();
     }
 
     private static String fazerRequisicao(String url) throws IOException {
@@ -123,7 +108,7 @@ public class Main {
             padrao = "\\b" + Pattern.quote(termo) + "\\b";
         }
 
-        Pattern pattern = Pattern.compile(padrao);
+        Pattern pattern = Pattern.compile(padrao, Pattern.CASE_INSENSITIVE);
         Matcher matcher = pattern.matcher(texto);
 
         while (matcher.find()) {
